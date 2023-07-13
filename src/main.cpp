@@ -29,13 +29,19 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  int sensorValue = analogRead(sensorPin);
-  Serial.print(sensorValue);
-  if(sensorValue > 0){
+  int rfid = true;
+  if(rfid){
     digitalWrite(relayPin, LOW);
-    delay(5000);
-  } else {
-    digitalWrite(relayPin, HIGH);
+    delay(1000);
+    int sensorValue = analogRead(sensorPin);
+    Serial.print(sensorValue);
+    if(sensorValue > 0){
+      delay(5000);
+      digitalWrite(buzzerPin, HIGH);
+      // send notification to telegram
+    } else {
+      digitalWrite(relayPin, HIGH);
+    }
   }
 }
 
