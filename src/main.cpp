@@ -15,7 +15,7 @@
 int myFunction(int, int);
 const int sensorPin = A0;
 const char* ssid = "Kali-Linux";
-const char* password = "kaliroot";
+const char* password = "#M4de$gu5$Nd1empat3Mpat6_M3i2023";
 #define BOTtoken "XXXXXXXXXX:XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 #define CHAT_ID "XXXXXXXXXX"
 
