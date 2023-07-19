@@ -58,7 +58,8 @@ void setup() {
   pinMode(sensorPin, INPUT);
 }
 
-void loop() {
+void loop() { 
+  bool is_open = false;
   // put your main code here, to run repeatedly:
   if(!mfrc522.PICC_IsNewCardPresent()){
     return;
@@ -83,25 +84,25 @@ void loop() {
   Serial.print("Pesan : ");
   content.toUpperCase();
 
+  int sensorValue = analogRead(sensorPin);
+
   if(content.substring(1) == "D9 DF 60 B9"){
+    is_open = true;
     digitalWrite(RELAY_PIN, LOW);
     delay(5000); // delay untuk akses buka pintu
     digitalWrite(RELAY_PIN, HIGH);
     digitalWrite(BUZZER_PIN, LOW);
     // send notification to telegram berhasil membuka pintu
-    bot.sendMessage(CHAT_ID, "Pintu terbuka!!", "");
-  } else {
+    bot.sendMessage(CHAT_ID, "Yashh..Door Opened!!", "");
+  } else if (is_open == false && sensorValue > 625){
+    is_open = true;
     delay(2000);
-    int sensorValue = analogRead(sensorPin);
-    if(sensorValue > 0){
-      digitalWrite(BUZZER_PIN, HIGH);
-      // send notification to telegram ada yang masuk
-      bot.sendMessage(CHAT_ID, "Pintu terbuka! dan ada yang mencoba masuk!", "");
-    }
     digitalWrite(RELAY_PIN, HIGH);
     digitalWrite(BUZZER_PIN, HIGH);
     // send notification to telegram gagal membuka pintu
-    bot.sendMessage(CHAT_ID, "Door Opened without authorization!", "");
+    bot.sendMessage(CHAT_ID, "Warning..Door Opened without authorization!", "");
+  } else {
+    is_open = false;
   }
 }
 
